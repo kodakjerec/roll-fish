@@ -10,6 +10,8 @@ import FormControl from '@mui/material/FormControl';
 // import FormLabel from '@mui/material/FormLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 
+const MainDiv = styled.div`display: flex;`;
+
 const PlanTitle = styled.h1`
     text-align: center;
 `;
@@ -20,11 +22,16 @@ const FlexBase = styled.div`
 `;
 
 const FlexAround = styled(FlexBase)`
-    justify-content: space-around;
+    width: 15%;
+    flex-flow: column;
 `;
 
 const WordLine = styled.div`
     margin-bottom: 12px;
+`;
+
+const PhraseBase = styled(FlexBase)`
+    flex-flow: column;
 `;
 
 const FlexCenter = styled(FlexBase)`
@@ -33,8 +40,8 @@ const FlexCenter = styled(FlexBase)`
 
 const WordCard = styled.div`
     position: relative;
-    padding: 32px;
-    font-size: 14px;
+    font-size: 1rem;
+    width: 85%;
 `;
 
 const WordPosition = styled.div`
@@ -73,11 +80,26 @@ const VoiceTag = styled(Tag)`
 
     &:hover {
         ${({ theme }) => {
-            return {
-                backgroundColor: theme.palette.grey[400],
-            }
-        }}
+        return {
+            backgroundColor: theme.palette.grey[400],
+        }
+    }}
     }
+`;
+
+const FlexBasePhone = styled(FlexBase)`
+    display: block;
+    margin-bottom: 0px;
+`;
+
+const RightButton = styled(Button)`
+    min-height: 10vh;
+    padding-left: 2px;
+    padding-right: 2px;
+`;
+
+const PageIndex = styled.div`
+    position:absolute;
 `;
 
 const LearnProcess = ({ handleExec, handleEnd, learnCount, learnBook }) => {
@@ -120,11 +142,24 @@ const LearnProcess = ({ handleExec, handleEnd, learnCount, learnBook }) => {
 
     const handleVoiceUK = useCallback(_.throttle((...args) => {
         handleVoice(...args)
-    }, 3000), []);
+    }, 1000), []);
 
     const handleVoiceUS = useCallback(_.throttle((...args) => {
         handleVoice(...args)
-    }, 3000), []);
+    }, 1000), []);
+
+    const synth = window.speechSynthesis;
+    const handleUScontent = useCallback((content, lang) => {
+        if (!content) return;
+
+        if (synth.speaking) {
+            synth.cancel();
+        }
+        let msgSetting = new SpeechSynthesisUtterance();
+        msgSetting.lang = lang ?? "en-US";
+        msgSetting.text = content;
+        synth.speak(msgSetting);
+    });
 
     const handleChangeTest = useCallback((wd, value) => {
         setTestRecord(old => {
@@ -138,7 +173,7 @@ const LearnProcess = ({ handleExec, handleEnd, learnCount, learnBook }) => {
     const handleStartTest = useCallback(_.throttle(() => {
         // console.log(words)
 
-        handleExec(`SELECT * from ${learnBook} WHERE headWord NOT IN (${_.map(words, v => `'${v.headWord}'`).join(',')}) ORDER BY RANDOM() LIMIT 0,${learnCount*2}`, undefined, (result) => {
+        handleExec(`SELECT * from ${learnBook} WHERE headWord NOT IN (${_.map(words, v => `'${v.headWord}'`).join(',')}) ORDER BY RANDOM() LIMIT 0,${learnCount * 2}`, undefined, (result) => {
             try {
                 const { columns, values } = result[0];
                 const _words = [];
@@ -216,7 +251,7 @@ const LearnProcess = ({ handleExec, handleEnd, learnCount, learnBook }) => {
                                 <FormControl component="fieldset" error={showTestRes ? error : undefined}>
                                     <RadioGroup aria-label="请选择正确解释" name={wd.headWord} value={testRecord[wd.headWord] || ''} onChange={(event) => handleChangeTest(wd.headWord, event.target.value)}>
                                         {_.map(testWords[i], (v) => {
-                                            return <FormControlLabel key={v} disabled={showTestRes && testRecord[wd.headWord]!==v} value={v} control={<Radio color={showTestRes ? (error ? 'error' : 'success') : undefined} />} label={v} />
+                                            return <FormControlLabel key={v} disabled={showTestRes && testRecord[wd.headWord] !== v} value={v} control={<Radio color={showTestRes ? (error ? 'error' : 'success') : undefined} />} label={v} />
                                         })}
                                     </RadioGroup>
                                     {(showTestRes && error) ? (
@@ -242,44 +277,58 @@ const LearnProcess = ({ handleExec, handleEnd, learnCount, learnBook }) => {
     const currentWord = words[processIdx];
 
     return (
-        <WordCard>
-            <FlexCenter>
-                <PlanTitle>{currentWord.headWord}</PlanTitle>
-            </FlexCenter>
-            <WordLine>
-                <FlexBase>
-                    {currentWord.ukphone ? (<><VoiceTag onClick={() => handleVoiceUK(currentWord.headWord, 1)}>英<VolumeUpIcon fontSize="small" /></VoiceTag><div style={{ marginRight: 6 }}>/{currentWord.ukphone}/</div></>) : null}
-                    {currentWord.usphone ? (<><VoiceTag onClick={() => handleVoiceUS(currentWord.headWord, 2)}>美<VolumeUpIcon fontSize="small" /></VoiceTag><div>/{currentWord.usphone}/</div></>) : null}
-                </FlexBase>
-            </WordLine>
-            <WordLine>
-                <FlexBase>
-                    <Tag>解释</Tag>
-                    <WordPosition><i>[{currentWord.pos}]</i></WordPosition>
-                    <div>{currentWord.tranCN}</div>
-                </FlexBase>
-            </WordLine>
-            {currentWord.phrase ? (
+        <MainDiv>
+            <PageIndex>{processIdx}</PageIndex>
+            <WordCard>
+                <FlexCenter>
+                    <PlanTitle>{currentWord.headWord}</PlanTitle>
+                </FlexCenter>
                 <WordLine>
-                    <FlexBase><Tag>短语</Tag><div style={{ marginRight: 6 }} dangerouslySetInnerHTML={{ __html: `${currentWord.phrase}`.replace(currentWord.headWord, `<b>${currentWord.headWord}</b>`) }} /><div>({currentWord.phraseCN})</div></FlexBase>
+                    <FlexBasePhone>
+                        <div style={{ display: "flex", marginBottom: "12px" }}>{currentWord.ukphone ? (<><VoiceTag onClick={() => handleVoiceUK(currentWord.headWord, 1)}>英<VolumeUpIcon fontSize="small" /></VoiceTag><div style={{ marginRight: 6 }}>/{currentWord.ukphone}/</div></>) : null}</div>
+                        <div style={{ display: "flex", marginBottom: "12px" }}>{currentWord.usphone ? (<><VoiceTag onClick={() => handleVoiceUS(currentWord.headWord, 2)}>美<VolumeUpIcon fontSize="small" /></VoiceTag><div>/{currentWord.usphone}/</div></>) : null}</div>
+                    </FlexBasePhone>
                 </WordLine>
-            ) : null}
-            {currentWord.sentence ? (
                 <WordLine>
-                    <FlexBase><Tag>例句</Tag><div style={{ marginRight: 6 }} dangerouslySetInnerHTML={{ __html: `${currentWord.sentence}`.replace(currentWord.headWord, `<b>${currentWord.headWord}</b>`) }} /><div>({currentWord.sentenceCN})</div></FlexBase>
+                    <FlexBase>
+                        <Tag>解释</Tag>
+                        <WordPosition><i>[{currentWord.pos}]</i></WordPosition>
+                        <div>{currentWord.tranCN}</div>
+                    </FlexBase>
                 </WordLine>
-            ) : null}
-            <FlexAround style={{ marginTop: 64 }}>
-                {processIdx > 0 ? (
-                    <Button onClick={() => setProcessIdx(processIdx - 1)}>上一个</Button>
+                {currentWord.phrase ? (
+                    <WordLine>
+                        <PhraseBase>
+                            <Tag>短语</Tag>
+                            <div dangerouslySetInnerHTML={{ __html: `${currentWord.phrase}`.replace(currentWord.headWord, `<b>${currentWord.headWord}</b>`) }} />
+                            <div>({currentWord.phraseCN})</div>
+                        </PhraseBase>
+                    </WordLine>
                 ) : null}
+                {currentWord.sentence ? (
+                    <WordLine>
+                        <PhraseBase>
+                            <Tag>例句</Tag>
+                            <div style={{ marginRight: 6 }} dangerouslySetInnerHTML={{ __html: `${currentWord.sentence}`.replace(currentWord.headWord, `<b>${currentWord.headWord}</b>`) }} />
+                            <div>({currentWord.sentenceCN})</div>
+                        </PhraseBase>
+                    </WordLine>
+                ) : null}
+            </WordCard>
+            <FlexAround>
+                <RightButton onClick={() => handleUScontent(currentWord.headWord, "en-GB")}>英<VolumeUpIcon fontSize="small" /></RightButton>
+                <RightButton onClick={() => handleUScontent(currentWord.headWord, "en-US")}>美<VolumeUpIcon fontSize="small" /></RightButton>
+                <RightButton onClick={() => handleUScontent(currentWord.phrase, "en-US")}>短語<VolumeUpIcon fontSize="small" /></RightButton>
+                <RightButton onClick={() => handleUScontent(currentWord.sentence, "en-US")}>例句<VolumeUpIcon fontSize="small" /></RightButton>
+                <RightButton disabled={processIdx <= 0} onClick={() => setProcessIdx(processIdx - 1)}>上一个</RightButton>
+
                 {processIdx === words.length - 1 ? (
-                    <Button onClick={handleStartTest} variant="contained">学好了，开始测试！</Button>
+                    <RightButton onClick={handleStartTest} variant="contained">学好了，开始测试！</RightButton>
                 ) : (
-                    <Button onClick={() => setProcessIdx(processIdx + 1)} variant="contained">下一个</Button>
+                    <RightButton onClick={() => setProcessIdx(processIdx + 1)} variant="contained">下一个</RightButton>
                 )}
             </FlexAround>
-        </WordCard>
+        </MainDiv >
     );
 };
 
