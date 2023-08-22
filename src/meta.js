@@ -1,6 +1,6 @@
 
 // {
-//     TempWord.headWord, // 單詞
+//     TempWord.headWord, // 單字
 //     TempWord.tranCN, // 翻譯
 //     TempWord.ukPhone, // 英音
 //     TempWord.usPhone, // 美音
@@ -22,7 +22,7 @@
 
 // 未使用
 // export const TABLE_NAME = "CET4_1";  // 當前書籍名字
-// export const WORD_NUMBER = 10;  // 當前單詞數量
+// export const WORD_NUMBER = 10;  // 當前單字數量
 // export const ENG_TYPE = 2;  // 英語類型1：美語，2：英語
 // export const AUTO_PLAY = 1;  // 英語自動發音
 

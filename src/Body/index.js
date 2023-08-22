@@ -99,8 +99,8 @@ const Body = () => {
                     <>
                         <LayoutCenter>
                             <BodyImage src={logo} />
-                            <Typography variant="h6" mb={2} align="center" color="inherit" component="div">這是一個利用摸魚時間背單詞的軟件</Typography>
-                            <Typography variant="h6" mb={2} align="center" color="inherit" component="div">可以讓你在上班、上課等惡劣環境下安全隱蔽地背單詞</Typography>
+                            <Typography variant="h6" mb={2} align="center" color="inherit" component="div">這是一個利用摸魚時間背單字的軟件</Typography>
+                            <Typography variant="h6" mb={2} align="center" color="inherit" component="div">可以讓你在上班、上課等惡劣環境下安全隱蔽地背單字</Typography>
                         </LayoutCenter>
                         <LayoutCenter>
                             <div>由於ToastFish只支持Win10+系統且只有本地程序，為了讓更多人能夠持續<b>學習進步</b>，作者 <a href='https://github.com/qhxin/roll-fish' target='_blank' rel='noopener noreferrer'>Uahh</a> 開發了這個WEB版。當前僅支持學英語。</div>
