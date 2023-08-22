@@ -70,7 +70,7 @@ const LearnWords = () => {
                     }
                     dataPromise = readInitDB();
                 } else {
-                    dataPromise = fetch("db/inami.db").then(res => res.arrayBuffer());
+                    dataPromise = fetch("db/inami.db.sqlite").then(res => res.arrayBuffer());
                 }
                 const [SQL, buf] = await Promise.all([sqlPromise, dataPromise]);
                 const loadDB = new SQL.Database(new Uint8Array(buf));
