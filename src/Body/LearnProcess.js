@@ -245,9 +245,9 @@ const LearnProcess = ({ handleExec, handleEnd, learnCount, learnBook }) => {
         return (
             <WordCard>
                 <FlexCenter>
-                    <PlanTitle>学习检测</PlanTitle>
+                    <PlanTitle>學習檢測</PlanTitle>
                 </FlexCenter>
-                <FlexCenter><WordLine>请选择正确解释</WordLine></FlexCenter>
+                <FlexCenter><WordLine>請選擇正確解釋</WordLine></FlexCenter>
                 <div>
                     {_.map(words, (wd, i) => {
                         const error = !(wd.tranCN === testRecord[wd.headWord]);
@@ -256,13 +256,13 @@ const LearnProcess = ({ handleExec, handleEnd, learnCount, learnBook }) => {
                             <WordLine key={wd.headWord}>
                                 <TestTag>{i + 1}) {wd.headWord}</TestTag>
                                 <FormControl component="fieldset" error={showTestRes ? error : undefined}>
-                                    <RadioGroup aria-label="请选择正确解释" name={wd.headWord} value={testRecord[wd.headWord] || ''} onChange={(event) => handleChangeTest(wd.headWord, event.target.value)}>
+                                    <RadioGroup aria-label="請選擇正確解釋" name={wd.headWord} value={testRecord[wd.headWord] || ''} onChange={(event) => handleChangeTest(wd.headWord, event.target.value)}>
                                         {_.map(testWords[i], (v) => {
                                             return <FormControlLabel key={v} disabled={showTestRes && testRecord[wd.headWord] !== v} value={v} control={<Radio color={showTestRes ? (error ? 'error' : 'success') : undefined} />} label={v} />
                                         })}
                                     </RadioGroup>
                                     {(showTestRes && error) ? (
-                                        <FormHelperText>正确答案：{wd.tranCN}</FormHelperText>
+                                        <FormHelperText>正確答案：{wd.tranCN}</FormHelperText>
                                     ) : null}
                                 </FormControl>
                             </WordLine>
@@ -271,7 +271,7 @@ const LearnProcess = ({ handleExec, handleEnd, learnCount, learnBook }) => {
                 </div>
                 <FlexCenter>
                     {showTestRes ? (
-                        <Button onClick={handleEnd} variant="contained">再卷一轮！</Button>
+                        <Button onClick={handleEnd} variant="contained">再來一輪！</Button>
                     ) : (
                         <Button onClick={handleEndTest} variant="contained">交卷</Button>
                     )}
