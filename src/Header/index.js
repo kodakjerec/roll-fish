@@ -31,9 +31,9 @@ const Header = ({ handleClickLogo = reload, handleToggleColorMode }) => {
                             RollFish
                         </Typography>
                     </IconButton>
-                    
+
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        学到的才是自己的
+                        學到的才是自己的
                     </Typography>
                     <IconButton sx={{ ml: 1 }} onClick={handleToggleColorMode} edge="end" color="inherit">
                         {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}

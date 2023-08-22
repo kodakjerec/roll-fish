@@ -10,7 +10,9 @@ import FormControl from '@mui/material/FormControl';
 // import FormLabel from '@mui/material/FormLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 
-const MainDiv = styled.div`display: flex;`;
+const MainDiv = styled.div`
+display: flex;
+`;
 
 const PlanTitle = styled.h1`
     text-align: center;
@@ -22,8 +24,9 @@ const FlexBase = styled.div`
 `;
 
 const FlexAround = styled(FlexBase)`
-    width: 15%;
+    position: relative;
     flex-flow: column;
+    right: 0;
 `;
 
 const WordLine = styled.div`
@@ -41,7 +44,7 @@ const FlexCenter = styled(FlexBase)`
 const WordCard = styled.div`
     position: relative;
     font-size: 1rem;
-    width: 85%;
+    flex-grow:2;
 `;
 
 const WordPosition = styled.div`
@@ -97,12 +100,16 @@ const RightButton = styled(Button)`
     padding-left: 2px;
     padding-right: 2px;
 `;
+const ReverseButton = styled(Button)`
+    padding: 0px;
+`;
 
 const PageIndex = styled.div`
     position:absolute;
 `;
 
 const LearnProcess = ({ handleExec, handleEnd, learnCount, learnBook }) => {
+    const [isReverse, setIsReverse] = useState(false);
     const [words, setWords] = useState([]);
     const queryRef = useRef(false);
     const [processIdx, setProcessIdx] = useState(0);
@@ -224,10 +231,10 @@ const LearnProcess = ({ handleExec, handleEnd, learnCount, learnBook }) => {
         return (
             <WordCard>
                 <FlexCenter>
-                    <PlanTitle>这本书已经没有单词可学了</PlanTitle>
+                    <PlanTitle>這本書已經沒有單字可學了</PlanTitle>
                 </FlexCenter>
                 <FlexCenter>
-                    <Button onClick={handleEnd} variant="contained">去卷其他的吧</Button>
+                    <Button onClick={handleEnd} variant="contained">去學習其他的吧</Button>
                 </FlexCenter>
             </WordCard>
         );
@@ -277,7 +284,7 @@ const LearnProcess = ({ handleExec, handleEnd, learnCount, learnBook }) => {
     const currentWord = words[processIdx];
 
     return (
-        <MainDiv>
+        <MainDiv style={{ flexDirection: isReverse ? 'row-reverse' : 'row' }}>
             <PageIndex>{processIdx}</PageIndex>
             <WordCard>
                 <FlexCenter>
@@ -291,7 +298,7 @@ const LearnProcess = ({ handleExec, handleEnd, learnCount, learnBook }) => {
                 </WordLine>
                 <WordLine>
                     <FlexBase>
-                        <Tag>解释</Tag>
+                        <Tag>解釋</Tag>
                         <WordPosition><i>[{currentWord.pos}]</i></WordPosition>
                         <div>{currentWord.tranCN}</div>
                     </FlexBase>
@@ -299,7 +306,7 @@ const LearnProcess = ({ handleExec, handleEnd, learnCount, learnBook }) => {
                 {currentWord.phrase ? (
                     <WordLine>
                         <PhraseBase>
-                            <Tag>短语</Tag>
+                            <Tag>短語</Tag>
                             <div dangerouslySetInnerHTML={{ __html: `${currentWord.phrase}`.replace(currentWord.headWord, `<b>${currentWord.headWord}</b>`) }} />
                             <div>({currentWord.phraseCN})</div>
                         </PhraseBase>
@@ -316,16 +323,17 @@ const LearnProcess = ({ handleExec, handleEnd, learnCount, learnBook }) => {
                 ) : null}
             </WordCard>
             <FlexAround>
+                <ReverseButton onClick={() => setIsReverse(!isReverse)}>{isReverse ? "右" : "左"}</ReverseButton>
                 <RightButton onClick={() => handleUScontent(currentWord.headWord, "en-GB")}>英<VolumeUpIcon fontSize="small" /></RightButton>
                 <RightButton onClick={() => handleUScontent(currentWord.headWord, "en-US")}>美<VolumeUpIcon fontSize="small" /></RightButton>
                 <RightButton onClick={() => handleUScontent(currentWord.phrase, "en-US")}>短語<VolumeUpIcon fontSize="small" /></RightButton>
                 <RightButton onClick={() => handleUScontent(currentWord.sentence, "en-US")}>例句<VolumeUpIcon fontSize="small" /></RightButton>
-                <RightButton disabled={processIdx <= 0} onClick={() => setProcessIdx(processIdx - 1)}>上一个</RightButton>
+                <RightButton disabled={processIdx <= 0} onClick={() => setProcessIdx(processIdx - 1)}>上一個</RightButton>
 
                 {processIdx === words.length - 1 ? (
-                    <RightButton onClick={handleStartTest} variant="contained">学好了，开始测试！</RightButton>
+                    <RightButton onClick={handleStartTest} variant="contained">學好了<br />開始測試</RightButton>
                 ) : (
-                    <RightButton onClick={() => setProcessIdx(processIdx + 1)} variant="contained">下一个</RightButton>
+                    <RightButton onClick={() => setProcessIdx(processIdx + 1)} variant="contained">下一個</RightButton>
                 )}
             </FlexAround>
         </MainDiv >

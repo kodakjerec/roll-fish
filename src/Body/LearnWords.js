@@ -40,7 +40,7 @@ const LearnWords = () => {
     const [db, setDb] = useState(null);
     const [error, setError] = useState(null);
     const lockRef = useRef(false);
-  
+
     useEffect(() => {
         (async () => {
             try {
@@ -57,7 +57,7 @@ const LearnWords = () => {
                     localDB = value;
                 } catch (err) {
                     console.log(err);
-                    alert('学习进度本地读取失败！请尝试清理缓存！');
+                    alert('學習進度本地讀取失敗！請嘗試清理緩存！');
                 }
 
                 const sqlPromise = initSqlJs({ locateFile: () => `db/sql-wasm.wasm` });
@@ -79,7 +79,7 @@ const LearnWords = () => {
                     try {
                         await localforage.setItem(LOCAL_SAVE, loadDB.export());
                     } catch (e) {
-                        alert('词库初始化保存失败！');
+                        alert('詞庫初始化儲存失敗！');
                     }
                 }
                 setDb(loadDB);
@@ -102,7 +102,7 @@ const LearnWords = () => {
                     try {
                         await localforage.setItem(LOCAL_SAVE, db.export());
                     } catch (e) {
-                        alert('学习进度本地保存失败！');
+                        alert('學習進度本地儲存失敗！');
                     }
                 })();
             }
@@ -148,7 +148,7 @@ const LearnWords = () => {
         return (
             <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                 <CircularProgress />
-                <p>正在下载词库，初始时间较长请耐心等待，初始化完成后再次使用则无需等待</p>
+                <p>正在下載詞庫，初始時間較長請耐心等待，初始化完成後再次使用則無需等待</p>
             </Box>
         );
     }
@@ -167,23 +167,23 @@ const LearnWords = () => {
 
     return (
         <div>
-            <PlanTitle>制定学习计划</PlanTitle>
+            <PlanTitle>制定學習計劃</PlanTitle>
             <FormLimit>
                 <FormControlLine fullWidth>
-                    <InputLabel id="learn-book-select-label">选择学习词库</InputLabel>
+                    <InputLabel id="learn-book-select-label">選擇學習詞庫</InputLabel>
                     <Select
                         labelId="learn-book-select-label"
                         id="learn-book-select"
                         value={learnBook}
-                        label="选择学习词库"
+                        label="選擇學習詞庫"
                         onChange={e => setLearnBook(e.target.value)}
                     >
                         {booksMap.map((line) => {
                             const process = learnProcess[line[0]];
                             const show = process ? (
                                 learnProcess[line[0]]['1'] > 0 ?
-                                    `${learnProcess[line[0]]['1']} / ${learnProcess[line[0]]['0']}`:
-                                    `${learnProcess[line[0]]['0']}` 
+                                    `${learnProcess[line[0]]['1']} / ${learnProcess[line[0]]['0']}` :
+                                    `${learnProcess[line[0]]['0']}`
                             ) : '';
 
                             return (
@@ -198,12 +198,12 @@ const LearnWords = () => {
                     </Select>
                 </FormControlLine>
                 <FormControlLine fullWidth>
-                    <InputLabel id="learn-count-select-label">本轮学习数量</InputLabel>
+                    <InputLabel id="learn-count-select-label">本輪學習數量</InputLabel>
                     <Select
                         labelId="learn-count-select-label"
                         id="learn-count-select"
                         value={learnCount}
-                        label="本轮学习数量"
+                        label="本輪學習數量"
                         onChange={e => setLearnCount(e.target.value)}
                     >
                         <MenuItem value={5}>5</MenuItem>
@@ -213,7 +213,7 @@ const LearnWords = () => {
                     </Select>
                 </FormControlLine>
                 <FormControlLine fullWidth>
-                    <Button fullWidth onClick={() => setInProcess(true)} variant="contained">开始学英语</Button>
+                    <Button size="large" fullWidth onClick={() => setInProcess(true)} variant="contained">開始學英語</Button>
                 </FormControlLine>
             </FormLimit>
         </div>
