@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build && node scripts/create-sw.js",
+    "build": "craco build && node scripts/create-sw.js && mv build docs",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
