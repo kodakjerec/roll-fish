@@ -10,18 +10,18 @@
 
 <div align="center">
 
-#### 这是一个利用摸鱼时间背单词的软件
+#### 這是一個利用摸魚時間背單字的軟件
 
-#### 可以让你在上班、上课等恶劣环境下安全隐蔽地背单词
+#### 可以讓你在上班、上課等惡劣環境下安全隱蔽地背單字
 
 ![License MIT](https://img.shields.io/badge/license-MIT-orange)
 ![GitHub release (latest by date)](https://img.shields.io/badge/release-v3.0-blue)
 
-由于 ToastFish 只支持 Win10+系统且只有本地程序，为了让更多人能够持续学习进步，我开发了这个 WEB 版。当前仅支持学英语。
+由於 ToastFish 只支持 Win10+系統且只有本地程序，為了讓更多人能夠持續學習進步，我開發了這個 WEB 版。當前僅支持學英語。
 
-如果你的设备 PWA 支持良好，建议安装到本地使用。
+如果你的設備 PWA 支持良好，建議安裝到本地使用。
 
-Tips: 数据来自于 [ToastFish](https://github.com/Uahh/ToastFish)
+Tips: 數據來自於 [ToastFish](https://github.com/Uahh/ToastFish)
 
 </div>
 
@@ -29,10 +29,10 @@ Tips: 数据来自于 [ToastFish](https://github.com/Uahh/ToastFish)
 
 ## Features
 
-- 可通过 PWA 安装
-- 支持白天黑夜主题
-- 学习数量设置
-- 学习成果检测
+- 可通過 PWA 安裝
+- 支持白天黑夜主題
+- 學習數量設置
+- 學習成果檢測
 - New:左邊發音為 https://dict.youdao.com, 右邊發音為 Web Speech API
 - New:按鈕可選擇左持或右持
 
