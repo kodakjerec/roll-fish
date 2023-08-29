@@ -108,6 +108,10 @@ const PageIndex = styled.div`
     position:absolute;
 `;
 
+const ExamFormControl = styled(FormControl)`
+    width: 100%;
+`;
+
 const LearnProcess = ({ handleExec, handleEnd, learnCount, learnBook }) => {
     const [isReverse, setIsReverse] = useState(false);
     const [words, setWords] = useState([]);
@@ -255,7 +259,7 @@ const LearnProcess = ({ handleExec, handleEnd, learnCount, learnBook }) => {
                         return (
                             <WordLine key={wd.headWord}>
                                 <TestTag>{i + 1}) {wd.headWord}</TestTag>
-                                <FormControl component="fieldset" error={showTestRes ? error : undefined}>
+                                <ExamFormControl component="fieldset" error={showTestRes ? error : undefined}>
                                     <RadioGroup aria-label="請選擇正確解釋" name={wd.headWord} value={testRecord[wd.headWord] || ''} onChange={(event) => handleChangeTest(wd.headWord, event.target.value)}>
                                         {_.map(testWords[i], (v) => {
                                             return <FormControlLabel key={v} disabled={showTestRes && testRecord[wd.headWord] !== v} value={v} control={<Radio color={showTestRes ? (error ? 'error' : 'success') : undefined} />} label={v} />
@@ -264,7 +268,7 @@ const LearnProcess = ({ handleExec, handleEnd, learnCount, learnBook }) => {
                                     {(showTestRes && error) ? (
                                         <FormHelperText>正確答案：{wd.tranCN}</FormHelperText>
                                     ) : null}
-                                </FormControl>
+                                </ExamFormControl>
                             </WordLine>
                         );
                     })}
