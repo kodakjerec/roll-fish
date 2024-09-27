@@ -37,7 +37,7 @@ Tips: 數據來自於 [ToastFish](https://github.com/Uahh/ToastFish)
 - New:按鈕可選擇左持或右持
 
 <img src="preview.png" width="300" />
-
+<img src="preview2.jpg" width="300" />
 ---
 
 ## Developers
